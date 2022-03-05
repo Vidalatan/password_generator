@@ -22,7 +22,7 @@ function promptLength(){
     }else if (user_len > max_len){
       msg = "You had too many characters! \nPlease try again. (8-128)"
     }else if (regExp_letters.test(user_len)){
-      msg = "You included letters in your answer. \nPlease only user numbers. (8-128)"
+      msg = "You included non-number characters in your answer. \nPlease only user numbers. (8-128)"
     }
 
     // Prompt
