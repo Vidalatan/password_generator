@@ -5,15 +5,12 @@ var generateBtn = document.querySelector("#generate");
 // RegExp for containing any non digit characters
 const regExp_letters = /\D/i
 
-// ***
 // prompt user for lenght of password. 8-128 character range
 function promptLength()
 {
   let min_len = 7;
   let max_len = 129;
   let user_len = 8;
-
-
 
   // Keep user in prompt loop until input is between 8-128
   do 
@@ -38,7 +35,6 @@ function promptLength()
     // Prompt
     user_len = prompt(msg,"8");
     
-
     // Check if response was cancel or contains letters
     if (user_len === null)
     {
@@ -57,203 +53,48 @@ function promptLength()
   return user_len;
 }
 
-
-
-
-// prompt user if spcial character must be included
-function promptSpecialChar()
+// Function to prompt user for specific char set
+function promptCharSet(msg)
 {
-
-  let user_special = true;
-
+  let user_set = true;
 
   // Keep user in prompt loop until input yes, no, or defaulted
   do 
   {
-    // Default message when prompt is opened
-    let msg = "Should the password include special characters? (Y or N)"
-
     // Message selection if input did not pass
-    if (typeof(user_special) !== typeof(true))
+    if (typeof(user_set) !== typeof(true))
     {
-
       msg = "Invalid answer! Please try again (Y/N)"
-
     }
 
-    // Prompt
-    user_special = prompt(msg, "Y");
-    
-    
-    // Check if response was cancel, or matches criteria
-    if (user_special === null)
+    user_set = prompt(msg, "Y")
+
+    if (user_set ===null)
     {
-      user_special = false
+      user_set = false;
       break;
     }
 
-    switch (user_special[0].toUpperCase()) {
-      case "Y":
-        user_special = true
-        break;
-      
-      case "N":
-        user_special = false
-        break
-    }
-
-  } while (typeof(user_special) !== typeof(true));
-
-  return user_special;
-}
-
-
-
-
-// prompt user if num character must be included
-function promptNumChar()
-{
-
-  let user_num = true;
-
-
-  // Keep user in prompt loop until input yes, no, or defaulted
-  do 
-  {
-    // Default message when prompt is opened
-    let msg = "Should the password include numbers characters? (Y or N)"
-
-    // Message selection if input did not pass
-    if (typeof(user_num) !== typeof(true))
-    {
-
-      msg = "Invalid answer! Please try again (Y/N)"
-
-    }
-
-    // Prompt
-    user_num = prompt(msg, "Y");
-    
-    
     // Check if response was cancel, or matches criteria
-    if (user_num === null)
+    if (user_set === null)
     {
-      user_num = false
+      user_set = false
       break;
     }
 
-    switch (user_num[0].toUpperCase()) {
-      case "Y":
-        user_num = true
-        break;
-      
-      case "N":
-        user_num = false
-        break
-    }
-
-  } while (typeof(user_num) !== typeof(true));
-
-  return user_num;
-}
-
-
-
-
-
-// prompt user if capital characters must be included
-function promptUpChar()
-{
-  let user_up = true;
-
-  // Keep user in prompt loop until input yes, no, or defaulted
-  do 
-  {
-    // Default message when prompt is opened
-    let msg = "Should the password include upper characters? (Y or N)"
-
-    // Message selection if input did not pass
-    if (typeof(user_up) !== typeof(true))
-    {
-
-      msg = "Invalid answer! Please try again (Y/N)"
-
-    }
-
-    // Prompt
-    user_up = prompt(msg, "Y");
-
     // Check if response was cancel, or matches criteria
-    if (user_up === null)
-    {
-      user_up = false
-      break;
-    }
-
-    switch (user_up[0].toUpperCase()) {
+    switch (user_set[0].toUpperCase()) {
       case "Y":
-        user_up = true
+        user_set = true
         break;
       
       case "N":
-        user_up = false
+        user_set = false
         break
     }
-
-  } while (typeof(user_up) !== typeof(true));
-
-  return user_up;
+  } while (typeof(user_set) !== typeof(true));
+  return user_set
 }
-
-
-
-// prompt user if lower characters must be included
-function promptLowChar()
-{
-
-  let user_low = true;
-
-
-  // Keep user in prompt loop until input yes, no, or defaulted
-  do 
-  {
-    // Default message when prompt is opened
-    let msg = "Should the password include lower case characters? (Y or N)"
-
-    // Message selection if input did not pass
-    if (typeof(user_low) !== typeof(true))
-    {
-
-      msg = "Invalid answer! Please try again (Y/N)"
-
-    }
-
-    // Prompt
-    user_low = prompt(msg, "Y");
-
-    // Check if response was cancel, or matches criteria
-    if (user_low === null)
-    {
-      user_low = false
-      break;
-    }
-
-    switch (user_low[0].toUpperCase()) {
-      case "Y":
-        user_low = true
-        break;
-      
-      case "N":
-        user_low = false
-        break
-    }
-
-  } while (typeof(user_low) !== typeof(true));
-
-  return user_low;
-}
-
-
 
 function generatePassword()
 {
@@ -261,11 +102,12 @@ function generatePassword()
   const numbers = "0123456789"
   const alpha_lower = "abcdefghijklmnopqrstuvwxyz"
 
+  var pass_has_spe = promptCharSet("Can the password include special characters? \n(Y or N)")
+  var pass_has_num = promptCharSet("Can the password include number? \n(Y or N)")
+  var pass_has_up = promptCharSet("Can the password include upper-case characters? (Y or N)")
+  var pass_has_low = promptCharSet("Can the password include lower-case characters? (Y or N)")
+
   var pass_len = promptLength(); //Length of password
-  var pass_has_spe = promptSpecialChar(); // If can contain special char
-  var pass_has_num = promptNumChar(); // If can contain num char
-  var pass_has_up = promptUpChar(); // If can contain upper charc
-  var pass_has_low = promptLowChar(); // If can contain lower charc
 
   // If no character set turned on, alert user default setting is all characters and reset values
   if (pass_has_spe===false && pass_has_num===false && pass_has_up===false && pass_has_low===false)
@@ -285,12 +127,12 @@ function generatePassword()
     return char_set[rand_selector];
   }
 
-  // ***
   // Function to collect appropriate character sets
   function collectCharSets()
   {
     let collected_sets = [];
 
+    // Checks 
     function pushSet(has_boolean, collection, set)
       {
         if (has_boolean)
@@ -324,8 +166,6 @@ function generatePassword()
       }
       _password = _password+=character;
     } 
-
-    console.log("constructPassword returning: " +_password)
     return _password
   }
 
