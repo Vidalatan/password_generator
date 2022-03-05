@@ -269,29 +269,8 @@ function generatePassword()
   var pass_has_up = promptUpChar(); // If can contain upper charc
   var pass_has_low = promptLowChar(); // If can contain lower charc
 
-  // Function to decide whether or not to pull from a char list
-  function randBool()
-  {
-
-    let rand = Math.floor(Math.random()*2)
-    switch (rand) 
-    {
-
-      case 1:
-        rand = true;
-        break;
-
-      case 0:
-        rand = false;
-        break;
- 
-    }
-
-    return rand;
-  }
-
-  // Function to pull a random char from a given char set
-  function pullRandCharacter(char_set)
+  // Function to pull a random element from a given list or string
+  function pullRand(char_set)
   {
     let rand_selector = Math.floor(Math.random()*(char_set.length-1));
 
@@ -328,16 +307,33 @@ function generatePassword()
 
   var char_sets = collectCharSets();
 
+  // Function for constructing the password
   function constructPassword()
   {
+    let _password = "";
+
     for (let i = 1; i < pass_len; i++) 
     {
       let character;
 
+      while (character == null)
+      {
+        character = pullRand(pullRand(char_sets))
+      }
       
+      return _password+=character;
     }
   }
 
+  // Function for checking password contains required elements
+  function checkPassword(password_function)
+  {
+    return;
+  }
+
+  let gen_password = checkPassword(constructPassword());
+
+  return gen_password
 }
 
 generatePassword()
