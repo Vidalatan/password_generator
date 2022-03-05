@@ -264,12 +264,33 @@ function promptLowChar()
 function generatePassword()
 {
   var pass_len = promptLength(); //Length of password
-  var pass_spe = promptSpecialChar(); // If can contain special char
-  var pass_num = promptNumChar(); // If can contain num char
-  var pass_up = promptUpChar(); // If can contain upper charc
-  var pass_low = promptLowChar(); // If can contain lower charc
+  var pass_has_spe = promptSpecialChar(); // If can contain special char
+  var pass_has_num = promptNumChar(); // If can contain num char
+  var pass_has_up = promptUpChar(); // If can contain upper charc
+  var pass_has_low = promptLowChar(); // If can contain lower charc
 
-  
+  // Function to decide whether or not to pull from a char list
+  function rand_bool()
+  {
+
+    let rand = Math.floor(Math.random()*1)
+    switch (rand) 
+    {
+
+      case 1:
+        rand = true;
+        break;
+
+      case 0:
+        rand = false;
+        break;
+ 
+    }
+
+    return rand;
+  }
+
+
 
 
 }
