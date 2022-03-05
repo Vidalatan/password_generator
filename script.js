@@ -6,29 +6,22 @@ var generateBtn = document.querySelector("#generate");
 const regExp_letters = /\D/i
 
 // prompt user for lenght of password. 8-128 character range
-function promptLength()
-{
+function promptLength(){
   let min_len = 7;
   let max_len = 129;
   let user_len = 8;
 
   // Keep user in prompt loop until input is between 8-128
-  do 
-    {
+  do {
     // Default message when prompt is opened
     let msg = "How many characters does the password need to have? \n(Minimum length is 8 | Maximum length is 128)"
 
     // Message selection if input did not pass
-    if (user_len < min_len) 
-    {
+    if (user_len < min_len) {
       msg = "You had too few characters! \nPlease try again. (8-128)"
-    }
-    else if (user_len > max_len)
-    {
+    }else if (user_len > max_len){
       msg = "You had too many characters! \nPlease try again. (8-128)"
-    }
-    else if (regExp_letters.test(user_len))
-    {
+    }else if (regExp_letters.test(user_len)){
       msg = "You included letters in your answer. \nPlease only user numbers. (8-128)"
     }
 
@@ -36,12 +29,9 @@ function promptLength()
     user_len = prompt(msg,"8");
     
     // Check if response was cancel or contains letters
-    if (user_len === null)
-    {
+    if (user_len === null){
       user_len = 8;
-    }
-    else if (regExp_letters.test(user_len))
-    {
+    }else if (regExp_letters.test(user_len)){
       continue;
     }
 
@@ -54,30 +44,25 @@ function promptLength()
 }
 
 // Function to prompt user for specific char set
-function promptCharSet(msg)
-{
+function promptCharSet(msg){
   let user_set = true;
 
   // Keep user in prompt loop until input yes, no, or defaulted
-  do 
-  {
+  do {
     // Message selection if input did not pass
-    if (typeof(user_set) !== typeof(true))
-    {
+    if (typeof(user_set) !== typeof(true)){
       msg = "Invalid answer! Please try again (Y/N)"
     }
 
     user_set = prompt(msg, "Y")
 
-    if (user_set ===null)
-    {
+    if (user_set ===null){
       user_set = false;
       break;
     }
 
     // Check if response was cancel, or matches criteria
-    if (user_set === null)
-    {
+    if (user_set === null){
       user_set = false
       break;
     }
@@ -87,7 +72,6 @@ function promptCharSet(msg)
       case "Y":
         user_set = true
         break;
-      
       case "N":
         user_set = false
         break
@@ -96,22 +80,20 @@ function promptCharSet(msg)
   return user_set
 }
 
-function generatePassword()
-{
+// Returns generated password
+function generatePassword(){
   const special_characters = "!@#$%^&*()_+-=|\\}{][':;/?.>,<`~\""
   const numbers = "0123456789"
   const alpha_lower = "abcdefghijklmnopqrstuvwxyz"
 
-  var pass_has_spe = promptCharSet("Can the password include special characters? \n(Y or N)")
-  var pass_has_num = promptCharSet("Can the password include number? \n(Y or N)")
-  var pass_has_up = promptCharSet("Can the password include upper-case characters? (Y or N)")
-  var pass_has_low = promptCharSet("Can the password include lower-case characters? (Y or N)")
-
   var pass_len = promptLength(); //Length of password
+  var pass_has_spe = promptCharSet("Can the password include special characters? \n(Y/Okay or N/Cancel)")
+  var pass_has_num = promptCharSet("Can the password include number? \n(Y/Okay or N/Cancel)")
+  var pass_has_up = promptCharSet("Can the password include upper-case characters? \n(Y/Okay or N/Cancel)")
+  var pass_has_low = promptCharSet("Can the password include lower-case characters? \n(Y/Okay or N/Cancel)")
 
   // If no character set turned on, alert user default setting is all characters and reset values
-  if (pass_has_spe===false && pass_has_num===false && pass_has_up===false && pass_has_low===false)
-  {
+  if (pass_has_spe===false && pass_has_num===false && pass_has_up===false && pass_has_low===false){
     alert("No characters selected. Defaulting all characters available")
     pass_has_spe = true;
     pass_has_num = true;
@@ -120,23 +102,19 @@ function generatePassword()
   }
 
   // Function to pull a random element from a given list or string
-  function pullRand(char_set)
-  {
-    let rand_selector = Math.floor(Math.random()*(char_set.length-1));
+  function pullRand(item){
+    let rand_selector = Math.floor(Math.random()*(item.length-1));
 
-    return char_set[rand_selector];
+    return item[rand_selector];
   }
 
   // Function to collect appropriate character sets
-  function collectCharSets()
-  {
+  function collectCharSets(){
     let collected_sets = [];
 
     // Checks 
-    function pushSet(has_boolean, collection, set)
-      {
-        if (has_boolean)
-        {
+    function pushSet(has_boolean, collection, set){
+        if (has_boolean){
           collection.push(set)
         }
       }
@@ -152,16 +130,13 @@ function generatePassword()
   var char_sets = collectCharSets();
 
   // Function for constructing the password
-  function constructPassword()
-  {
+  function constructPassword(){
     let _password = "";
 
-    for (let i = 0; i < pass_len; i++) 
-    {
+    for (let i = 0; i < pass_len; i++) {
       let character;
 
-      while (character == null)
-      {
+      while (character == null){
         character = pullRand(pullRand(char_sets))
       }
       _password = _password+=character;
@@ -178,7 +153,6 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 // Add event listener to generate button
