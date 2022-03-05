@@ -5,13 +5,13 @@ var generateBtn = document.querySelector("#generate");
 // RegExp for containing any non digit characters
 const regExp_letters = /\D/i
 
-
+// ***
 // prompt user for lenght of password. 8-128 character range
 function promptLength()
 {
   let min_len = 7;
   let max_len = 129;
-  let user_len = 8
+  let user_len = 8;
 
 
 
@@ -164,9 +164,7 @@ function promptNumChar()
 // prompt user if capital characters must be included
 function promptUpChar()
 {
-
   let user_up = true;
-
 
   // Keep user in prompt loop until input yes, no, or defaulted
   do 
@@ -269,6 +267,16 @@ function generatePassword()
   var pass_has_up = promptUpChar(); // If can contain upper charc
   var pass_has_low = promptLowChar(); // If can contain lower charc
 
+  // If no character set turned on, alert user default setting is all characters and reset values
+  if (pass_has_spe===false && pass_has_num===false && pass_has_up===false && pass_has_low===false)
+  {
+    alert("No characters selected. Defaulting all characters available")
+    pass_has_spe = true;
+    pass_has_num = true;
+    pass_has_up = true;
+    pass_has_low = true;
+  }
+
   // Function to pull a random element from a given list or string
   function pullRand(char_set)
   {
@@ -277,30 +285,24 @@ function generatePassword()
     return char_set[rand_selector];
   }
 
+  // ***
   // Function to collect appropriate character sets
   function collectCharSets()
   {
     let collected_sets = [];
 
-    if (pass_has_spe)
-    {
-      collected_sets.push(special_characters);
-    }
+    function pushSet(has_boolean, collection, set)
+      {
+        if (has_boolean)
+        {
+          collection.push(set)
+        }
+      }
 
-    if (pass_has_num)
-    {
-      collected_sets.push(numbers);
-    }
-
-    if (pass_has_up)
-    {
-      collected_sets.push(alpha_lower.toUpperCase());
-    }
-
-    if (pass_has_low)
-    {
-      collected_sets.push(alpha_lower);
-    }
+    pushSet(pass_has_spe, collected_sets, special_characters)
+    pushSet(pass_has_num, collected_sets, numbers)
+    pushSet(pass_has_up, collected_sets, alpha_lower.toUpperCase())
+    pushSet(pass_has_low, collected_sets, alpha_lower)
 
     return collected_sets
   }
@@ -312,7 +314,7 @@ function generatePassword()
   {
     let _password = "";
 
-    for (let i = 1; i < pass_len; i++) 
+    for (let i = 0; i < pass_len; i++) 
     {
       let character;
 
@@ -320,23 +322,15 @@ function generatePassword()
       {
         character = pullRand(pullRand(char_sets))
       }
-      
-      return _password+=character;
-    }
+      _password = _password+=character;
+    } 
+
+    console.log("constructPassword returning: " +_password)
+    return _password
   }
 
-  // Function for checking password contains required elements
-  function checkPassword(password_function)
-  {
-    return;
-  }
-
-  let gen_password = checkPassword(constructPassword());
-
-  return gen_password
+  return constructPassword();
 }
-
-generatePassword()
 
 // Write password to the #password input
 function writePassword() {
