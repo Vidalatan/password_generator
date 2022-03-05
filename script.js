@@ -84,6 +84,7 @@ function promptCharSet(msg){
 function generatePassword(){
   const special_characters = "!@#$%^&*()_+-=|\\}{][':;/?.>,<`~\""
   const numbers = "0123456789"
+  const alpha_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   const alpha_lower = "abcdefghijklmnopqrstuvwxyz"
 
   var pass_len = promptLength(); //Length of password
@@ -103,7 +104,7 @@ function generatePassword(){
 
   // Function to pull a random element from a given list or string
   function pullRand(item){
-    let rand_selector = Math.floor(Math.random()*(item.length-1));
+    let rand_selector = Math.floor(Math.random()*item.length);
 
     return item[rand_selector];
   }
@@ -121,9 +122,10 @@ function generatePassword(){
 
     pushSet(pass_has_spe, collected_sets, special_characters)
     pushSet(pass_has_num, collected_sets, numbers)
-    pushSet(pass_has_up, collected_sets, alpha_lower.toUpperCase())
+    pushSet(pass_has_up, collected_sets, alpha_upper)
     pushSet(pass_has_low, collected_sets, alpha_lower)
 
+    console.log(collected_sets)
     return collected_sets
   }
 
