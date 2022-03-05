@@ -1,10 +1,6 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-const special_characters = "!@#$%^&*()_+-=|\\}{][':;/?.>,<`~\""
-const alpha_lower = "abcdefghijklmnopqrstuvwxyz"
-const numbers = "0123456789"
-
 
 // RegExp for containing any non digit characters
 const regExp_letters = /\D/i
@@ -68,7 +64,7 @@ function promptLength()
 function promptSpecialChar()
 {
 
-  let user_special = "Y";
+  let user_special = true;
 
 
   // Keep user in prompt loop until input yes, no, or defaulted
@@ -118,14 +114,14 @@ function promptSpecialChar()
 function promptNumChar()
 {
 
-  let user_num = "Y";
+  let user_num = true;
 
 
   // Keep user in prompt loop until input yes, no, or defaulted
   do 
   {
     // Default message when prompt is opened
-    let msg = "Should the password include special characters? (Y or N)"
+    let msg = "Should the password include numbers characters? (Y or N)"
 
     // Message selection if input did not pass
     if (typeof(user_num) !== typeof(true))
@@ -169,7 +165,7 @@ function promptNumChar()
 function promptUpChar()
 {
 
-  let user_up = "Y";
+  let user_up = true;
 
 
   // Keep user in prompt loop until input yes, no, or defaulted
@@ -217,7 +213,7 @@ function promptUpChar()
 function promptLowChar()
 {
 
-  let user_low = "Y";
+  let user_low = true;
 
 
   // Keep user in prompt loop until input yes, no, or defaulted
@@ -263,6 +259,10 @@ function promptLowChar()
 
 function generatePassword()
 {
+  const special_characters = "!@#$%^&*()_+-=|\\}{][':;/?.>,<`~\""
+  const numbers = "0123456789"
+  const alpha_lower = "abcdefghijklmnopqrstuvwxyz"
+
   var pass_len = promptLength(); //Length of password
   var pass_has_spe = promptSpecialChar(); // If can contain special char
   var pass_has_num = promptNumChar(); // If can contain num char
@@ -270,10 +270,10 @@ function generatePassword()
   var pass_has_low = promptLowChar(); // If can contain lower charc
 
   // Function to decide whether or not to pull from a char list
-  function rand_bool()
+  function randBool()
   {
 
-    let rand = Math.floor(Math.random()*1)
+    let rand = Math.floor(Math.random()*2)
     switch (rand) 
     {
 
@@ -290,10 +290,57 @@ function generatePassword()
     return rand;
   }
 
+  // Function to pull a random char from a given char set
+  function pullRandCharacter(char_set)
+  {
+    let rand_selector = Math.floor(Math.random()*(char_set.length-1));
 
+    return char_set[rand_selector];
+  }
 
+  // Function to collect appropriate character sets
+  function collectCharSets()
+  {
+    let collected_sets = [];
+
+    if (pass_has_spe)
+    {
+      collected_sets.push(special_characters);
+    }
+
+    if (pass_has_num)
+    {
+      collected_sets.push(numbers);
+    }
+
+    if (pass_has_up)
+    {
+      collected_sets.push(alpha_lower.toUpperCase());
+    }
+
+    if (pass_has_low)
+    {
+      collected_sets.push(alpha_lower);
+    }
+
+    return collected_sets
+  }
+
+  var char_sets = collectCharSets();
+
+  function constructPassword()
+  {
+    for (let i = 1; i < pass_len; i++) 
+    {
+      let character;
+
+      
+    }
+  }
 
 }
+
+generatePassword()
 
 // Write password to the #password input
 function writePassword() {
